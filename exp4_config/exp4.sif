@@ -1,0 +1,421 @@
+!!--------------------------------------------------------!!
+!  CALVING MIP CONFIGURATION SETUP
+! Configuration done by Cruz Garcia-Molina
+! contact: cruz.garcia-molina@univ-grenoble-alpes.fr
+!!--------------------------------------------------------!!
+!---LUA BEGIN
+! function IfThenElse(condition,t,f)
+!   if condition then return t else return f end
+! end
+!---LUA END
+
+$ndt = 1000
+$fsave = 1
+$dt = 1
+$name = "exp4"
+$id = 01
+$MESH_NAME="mesh"
+!Do you want to run a restart configuration? 
+! if YES set it to "Before Simulation"
+! if NO  set it to "Never"
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! INCLUDE PHYSICAL PARAMETERS 
+! working units are MPa, a, m
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+include elmer_d.param.sif
+ 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Header
+  Mesh DB "." "$MESH_NAME$"
+End
+!---------------------------------------------------
+!---------------- CONSTANTS ------------------------
+!---------------------------------------------------
+Constants
+  Water Density = Real $rhow
+  sea level = Real 0.0
+End
+
+!---------------------------------------------------
+!---------------- SIMULATION -----------------------
+!---------------------------------------------------
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Simulation
+  !Greenland EPSG:3413
+  projection type = String "polar stereographic north"
+  central_meridian = Real -45.0
+  latitude_of_origin = Real 70.0
+  
+  Coordinate System  = Cartesian 2D 
+  Simulation Type = transient
+
+  Timestepping Method = "bdf"
+  BDF Order = 1
+  Timestep Intervals(1) = $ndt ! This simulation runs during $ndt a
+  Output Intervals(1) = $fsave ! it saves a file every $fsave a
+  Timestep Sizes(1) = $dt      ! the timestep $dt is in years (a)
+
+  Initialize Dirichlet Conditions = Logical True
+  Steady State Max Iterations = 8
+  Steady State Min Iterations = 2
+
+  max output level = 3
+
+  OutPut File = "$name$.result"
+  Post File = "$name$.vtu"
+  vtu: Vtu Time Collection = Logical True
+  
+  Restart File = "exp3.result"
+  Restart Position = 0
+  Restart Time = Real 0.0
+End
+
+!---------------------------------------------------
+!---------------- BODIES ---------------------------
+!---------------------------------------------------
+
+! the ice 
+Body 1
+  Name = "ice"
+  Equation = 1
+  Body Force = 1
+  Material = 1
+End
+!---------------------------------------------------
+!---------------- INITIAL CONDITIONS ---------------
+!---------------------------------------------------
+
+!---------------------------------------------------
+!---------------- BODY FORCES ----------------------
+!---------------------------------------------------
+
+Body Force 1
+  Flow BodyForce 1 = Real 0.0
+  Flow BodyForce 2 = Real 0.0
+  Flow BodyForce 3 = Real $gravity
+
+!! accumulation flux in m/year
+   smb = Real $smb 
+   Top Surface Accumulation = Real $smb
+
+!! no melting/accretion under ice/shelf
+   Bottom Surface Accumulation = Real 0.0e0
+
+  !---------------------------------------------
+  ! Other body forces
+  !---------------------------------------------
+  ! H internal limiters (Thickness solver)
+  H Lower Limit = Real 1.0
+  SSAVelocity 1 Higher Limit = Real 10000.0
+  SSAVelocity 2 Higher Limit = Real 10000.0
+
+  
+  CalvingMIP 1 = Variable Coordinate 1, Coordinate 2, time, groundedmask
+     Real LUA "IfThenElse(tx[3] < 0.0, IfThenElse(tx[2] < 500, (-750 * math.sin(2.0 * math.pi * tx[2] / 1000)) * tx[0] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])), 0.0), 0.0)"
+     
+  CalvingMIP 2 = Variable Coordinate 1, Coordinate 2, time, groundedmask
+     Real LUA "IfThenElse(tx[3] < 0.0, IfThenElse(tx[2] < 500, (-750 * math.sin(2.0 * math.pi * tx[2] / 1000)) * tx[1] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])), 0.0), 0.0)"
+     
+  Levelset Flux =  Real 0.0d0
+  
+!!!! ADDING THE LEVEL SET TO SET A CALVING FRONT !!!!!
+!!!!!!!! PASSIVE = OCEAN, ACTIVE=ICE !!!!!!!!!!!!!!!!!
+  H Passive = Variable $-1.0
+    REAL procedure "./PROG/PASSIVE" "LevelSetpassive"
+
+  SSAVelocity Passive =  Variable $-1.0
+    REAL procedure "./PROG/PASSIVE" "LevelSetpassive"
+
+  Hex Passive =  Variable $1.0
+    REAL procedure "./PROG/PASSIVE" "LevelSetpassive"
+  Hex = Real 1.0
+  Hex Condition Passive = Logical True
+
+  Uex Passive =  Variable $1.0
+    REAL procedure "./PROG/PASSIVE" "LevelSetpassive"
+  Uex = Real 0.0
+  Uex Condition Passive = Logical True
+
+  Vex Passive =  Variable $1.0
+    REAL procedure "./PROG/PASSIVE" "LevelSetpassive"
+  Vex = Real 0.0
+  Vex Condition Passive = Logical True
+
+  FreeAdvance 1 = Variable SSAVelocity 1
+    Real LUA "tx[0]"
+  FreeAdvance 2 = Variable SSAVelocity 2
+    Real LUA "tx[0]"
+
+End
+!---------------------------------------------------
+!---------------- MATERIALS ------------------------
+!---------------------------------------------------
+
+!! ice material properties in MPa - m - a system 
+Material 1
+  Name = String "ice"
+
+  Levelset Velocity 1 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 1
+     Real LUA "IfThenElse(tx[2] < 500.0,IfThenElse(tx[3] < 0.0,(-750.0 * math.sin(2.0 * math.pi * tx[2] / 1000.0)) * tx[0] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])),0.0),IfThenElse(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]) >= 750000.0,0.0,tx[4]))"
+  Levelset Velocity 2 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 2
+     Real LUA "IfThenElse(tx[2] < 500.0,IfThenElse(tx[3] < 0.0,(-750.0 * math.sin(2.0 * math.pi * tx[2] / 1000.0)) * tx[1] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])),0.0),IfThenElse(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]) >= 750000.0,0.0,tx[4]))"
+  Viscosity Exponent = Real $1.0/n
+  Critical Shear Rate = Real 1.0e-15
+
+  SSA Mean Viscosity = Real $eta
+  SSA Mean Density = Real $rhoi
+  SSA Critical Thickness = Real 1.0d0
+
+! slip coeff for the SSA
+  SSA Friction Law = String "Weertman"
+  SSA Friction Parameter = Real $C
+  SSA Friction Exponent = Real $(1.0/n)
+! Min velocity for linearisation where ub=0
+  SSA Friction Linear Velocity = Real 1.0
+
+  Flux = Equals H
+
+  Max Zs = Real 1.0e6 ! m
+
+  !! Bed condition
+  Min Zb = Equals Bedrock 
+  Max Zb = Real 1.0e6 ! m
+
+  Min H = Real 1.0 ! m
+
+End
+!--------------------------------------------------------
+!---------------- SOLVERS --------------------------
+!--------------------------------------------------------
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!#-----------------------------------------------------------------------
+!#            MAIN STEADY-STATE ITERATIONS
+!#-----------------------------------------------------------------------
+Solver 1
+  Equation = "Grad Hex"
+  Variable = String "Hex"
+  Variable 2 = String "Uex"
+  Variable 3 = String "Vex"
+  Procedure = "./PROG/grad" "LevelSetExportSolver"
+  Steady State Convergence Tolerance = 1e-6
+
+  Stabilize = True
+  Nonlinear System Relaxation Factor = 1.0
+  Nonlinear System Max Iterations = 1
+  Nonlinear System Convergence Tolerance = 1.0e-6
+  Dirichlet Comm = Logical True
+
+  Linear System Solver = direct
+  Linear System Direct Method = mumps
+  mumps percentage increase working space = Integer 200
+
+  Invert Domain = Logical False
+  
+  Auxiliar 1 = String "H"
+  Auxiliar 2 = String "SSAVelocity 1"
+  Auxiliar 3 = String "SSAVelocity 2"
+
+  Exported Variable 1 = Uex
+  Exported Variable 2 = Vex
+End
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Solver 2
+   Equation = "Thickness"
+   Variable = -dofs 1 "H"
+
+   Exported Variable 1 = -dofs 1 "H Residual"
+   Exported Variable 2 = DhDt
+   Compute DhDt = Logical True
+
+   ! calculate dH/dt : elmerinternal routines
+   Calculate Velocity = Logical True
+
+   Procedure = "ElmerIceSolvers" "ThicknessSolver"
+
+   Linear System Solver = Iterative
+   Linear System Max Iterations = 1000
+   Linear System Iterative Method = BiCGStab
+   Linear System Preconditioning = ILU0
+   Linear System Abort Not Converged = False
+   Linear System Residual Output = 1000
+
+   Linear System Convergence Tolerance = 1.0e-09
+
+   ! equation is linear if no min/max
+    Nonlinear System Max Iterations = 10
+    Nonlinear System Convergence Tolerance  = 1.0e-07
+
+!!
+    Stabilization Method = Stabilized
+    Transient Stabilisation = logical true
+    Apply Dirichlet = Logical True
+    Apply Limiter = Logical TRUE
+    ! get the residual
+    Calculate Loads = Logical TRUE
+
+
+!!  the convection velocity (mean horizontal velocity)
+    Flow Solution Name = String "SSAVelocity"
+!!
+  Steady State convergence tolerance = Real 1.0e-4
+
+  Compute averaged mass balances = Logical True
+
+
+  Exported Variable 3 = -elem acabf
+  Exported Variable 4 = -elem libmassbf
+End
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Solver 3
+  Equation = "UpdateExport"
+  Procedure = "ElmerIceSolvers" "UpdateExport"
+  Variable = -nooutput "dumy"
+    Optimize Bandwidth = logical false
+   
+    Exported Variable 1 = "CalvingMIP 1"
+    Exported Variable 2 = "CalvingMIP 2"
+End
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Solver 4
+  Equation = "Level Set"
+  Variable = LS
+  Variable DOFs = 1
+!  Procedure = "./PROG/LevelSetSolver" "LevelSetSolver"
+  Procedure = "LevelSet" "LevelSetSolver"
+  Steady State Convergence Tolerance = 1e-6
+
+  Calculate Velocity = Logical True
+
+  Linear System Solver = Iterative
+  Linear System Iterative Method = BiCGStabl
+  BicgStabl Polynomial Degree = 4
+  Linear System Max Iterations = 500
+
+  Linear System Convergence Tolerance = 1.0e-8
+  Linear System Preconditioning = none
+  Linear System Residual Output = 20
+  Steady State Convergence Tolerance = 1.0e-5
+  Stabilize = True
+
+  Nonlinear System Convergence Tolerance = 1.0e-5
+  Nonlinear System Max Iterations = 15
+  Nonlinear System Newton After Iterations = 3
+  Nonlinear System Newton After Tolerance = 1.0e-2
+  Nonlinear System Relaxation Factor = 1.0
+
+End
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Solver 5
+  Equation = "Reinitialize"
+  Variable = Renorm
+  LevelSet Variable = String "LS"
+  Variable DOFs = 1
+  Procedure = "./PROG/LevelSetDistance" "LevelSetDistance"
+
+  Extract Interval = 1
+  Reinitialize Interval = 1
+
+End
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Solver 6
+   Equation = "Flotation"
+   Variable = GroundedMask
+   Procedure = "ElmerIceSolvers" "Flotation"
+
+   ! options
+   GL integration points number = Integer 20
+
+   ! secondary variables (output): surface and base altitude, heigh above flotation
+   !                               ice mask, floated and grounded fraction
+   Exported Variable 1 = Zs
+   Exported Variable 2 = Zb
+   Exported Variable 3 = bedrock
+   Exported Variable 4 = haf
+
+   compute ice area fractions = Logical TRUE
+   Exported Variable 5 = -elem "sftgif"
+   Exported Variable 6 = -elem "sftgrf"
+   Exported Variable 7 = -elem "sftflf"
+   Exported Variable 8 = -elem "smb"
+End
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Solver 7
+  Equation = "SSA"
+  Variable = -dofs 2 "SSAVelocity"
+
+   Procedure = "ElmerIceSolvers" "SSABasalSolver"
+
+   Linear System Solver = Iterative
+   Linear System Max Iterations = 300
+   Linear System Iterative Method = BiCGStab
+   Linear System Preconditioning = ILU2
+   Linear System Abort Not Converged = False
+   Linear System Residual Output = 1000
+   Linear System Convergence Tolerance = 1.0e-9
+
+  Calculate Velocity = Logical True
+
+  Nonlinear System Max Iterations = 20
+  Nonlinear System Convergence Tolerance  = 1.0e-08
+  Nonlinear System Newton After Iterations = 5
+  Nonlinear System Newton After Tolerance = 1.0e-05
+  Nonlinear System Relaxation Factor = 1.00
+  !Nonlinear System Abort Not Converged = Logical True
+
+  ! GL subgrid element
+  Sub-Element GL parameterization = logical True
+  GL integration points number = Integer 20
+
+  Steady State convergence tolerance = Real 1.0e-4
+
+  ! Secondary variable (output)
+  ! grounding line flux [m/s] wrt cell area
+  Compute grounding line flux = Logical TRUE
+  Exported Variable 1 = -elem "ligroundf"
+
+  ! calving front flux [m/s] wrt cell area
+  Compute calving front flux = Logical TRUE
+  Exported Variable 2 = -elem "calving_front_flux"
+ ! if variables with this names exist compute the
+ ! element average basal stress
+ ! and nodal effective friction coefficient
+  Exported Variable 3 = -elem "strbasemag"
+  Exported Variable 4 = "Ceff"
+End
+!------------------XIOS-------------------------
+
+!---------------------------------------------------
+!---------------- EQUATIONS ------------------------
+!---------------------------------------------------
+
+Equation 1
+  Name = String "Equations"
+  Active Solvers (7) = 1 2 3 4 5 6 7 
+End
+
+!---------------------------------------------------
+!---------------- BOUNDARY CONDITIONS --------------
+!---------------------------------------------------
+
+Boundary Condition 1
+  Name = String "Calving front"
+  Target Boundaries(4) = 1 2 3 4
+ 
+  Calving Front = Logical True
+  ComputeNormal = Logical True
+
+End
+
+Boundary Condition 2
+  Passive Target = Logical True
+
+  Calving Front = Logical True
+  ComputeNormal = Logical True
+
+  Hex = Equals H
+  Uex = Equals SSAVelocity 1
+  Vex = Equals SSAVelocity 2
+
+End
