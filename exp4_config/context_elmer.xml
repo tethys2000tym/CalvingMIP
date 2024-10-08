@@ -2,7 +2,7 @@
 <!-- Context elmerice -->
    <context id="elmerice">
 
-    <calendar type="none" time_origin="0001-01-01 00:00:00" />
+    <calendar type="noleap" time_origin="0001-01-01 00:00:00" />
 
 <!-- ============== Variable definition ======================== -->
     <variable_definition>
@@ -19,15 +19,15 @@
           <field id="calvingmip_xvelmean"   name="xvelmean"   field_ref="ssavelocity 1_elem" unit="m a-1" /> 
           <field id="calvingmip_yvelmean"   name="yvelmean"   field_ref="ssavelocity 2_elem" unit="m a-1" /> 
           <field id="calvingmip_velmean"    name="velmean"    field_ref="ssavelocity_elem"   unit="m a-1" /> 
-          <field id="calvingmip_lithk"      name="lithk"      field_ref="h_elem"  > this*(iareafl + iareagr) </field>
+          <field id="calvingmip_lithk"      name="lithk"      field_ref="lithk_elem"  > this*iarea </field>
           <field id="calvingmip_topg"       name="topg"       field_ref="bedrock_elem" />
                       <field id="calvingmip_iareagr"     name="iareagr"     field_ref="iareagr"       />
                       <field id="calvingmip_iareafl"     name="iareafl"     field_ref="iareafl"       />
         </field_group>
 
         <field_group id="calvingmip_2D_flux" grid_ref="GridCells" operation="average">
-          <field id="calvingmip_ligroundf"   name="ligroundf" long_name="Loss of grounded ice mass resulting at grounding line"  field_ref="ligroundf"       unit="kg m-2 a-1" > this*(iareafl + iareagr)*$rhoi </field>
-          <field id="calvingmip_lifmassbf" name="lifmassbf" unit="kg m-2 a-1" long_name="Loss of ice mass resulting from ice front melting and calving" field_ref="calving_front_flux"  > this*(iareafl + iareagr)*$rhoi </field>
+          <field id="calvingmip_ligroundf"   name="ligroundf" long_name="Loss of grounded ice mass resulting at grounding line"  field_ref="ligroundf"       unit="kg m-2 a-1" > this*iarea*$rhoi </field>
+          <field id="calvingmip_lifmassbf" name="lifmassbf" unit="kg m-2 a-1" long_name="Loss of ice mass resulting from ice front melting and calving" field_ref="calving_front_flux"  > this*iarea*$rhoi </field>
         </field_group>
 
         <field_group id="calvingmip_1D" grid_ref="ScalarGrid_sum">
@@ -55,8 +55,8 @@
       <field_group id="elmer" operation="instant" >
 
         <field_group id="elmer_topo" >
-          <field id="h"       standard_name="land_ice_thickness" unit="m" grid_ref="GridNodes"  />
-          <field id="h_elem"  standard_name="land_ice_thickness" unit="m" grid_ref="GridCells"  />
+          <field id="lithk"       standard_name="land_ice_thickness" unit="m" grid_ref="GridNodes"  />
+          <field id="lithk_elem"  standard_name="land_ice_thickness" unit="m" grid_ref="GridCells"  />
           
           <field id="haf"      standard_name="heigh_above_flotation" unit="m"  grid_ref="GridNodes" />
           <field id="haf_elem" standard_name="heigh_above_flotation" unit="m"  grid_ref="GridCells" />
@@ -69,6 +69,7 @@
 
         <field_group id="elmer_masks" >
           <field id="groundedmask" unit="1" grid_ref="GridNodes" />
+          <field id="iarea"     standard_name="land_ice_area_fraction"           unit="1" grid_ref="GridCells" />
           <field id="iareagr"     standard_name="grounded_ice_sheet_area_fraction" unit="1" grid_ref="GridCells" />
           <field id="iareafl"     standard_name="floating_ice_shelf_area_fraction" unit="1" grid_ref="GridCells" />
          <!--  <field id="basins"     standard_name="ice_catchments_basins_mask"       unit="1" grid_ref="GridNodes" /> -->
