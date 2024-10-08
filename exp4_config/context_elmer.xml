@@ -16,36 +16,35 @@
       <!-- calvingmip variables  -->
       <field_group id="calvingmip" >
         <field_group id="calvingmip_2D_state"  operation="instant">
-          <field id="calvingmip_xvelmean"   name="xvelmean"   field_ref="ssavelocity 1_elem" unit="m a-1" /> 
-          <field id="calvingmip_yvelmean"   name="yvelmean"   field_ref="ssavelocity 2_elem" unit="m a-1" /> 
-          <field id="calvingmip_velmean"    name="velmean"    field_ref="ssavelocity_elem"   unit="m a-1" /> 
-          <field id="calvingmip_lithk"      name="lithk"      field_ref="lithk_elem"  > this*iarea </field>
-          <field id="calvingmip_topg"       name="topg"       field_ref="topg_elem" />
-                      <field id="calvingmip_iareagr"     name="iareagr"     field_ref="iareagr"       />
-                      <field id="calvingmip_iareafl"     name="iareafl"     field_ref="iareafl"       />
+          <field id="xvelmean"   name="xvelmean"   field_ref="ssavelocity 1_elem" unit="m a-1" /> 
+          <field id="yvelmean"   name="yvelmean"   field_ref="ssavelocity 2_elem" unit="m a-1" /> 
+          <field id="velmean"    name="velmean"    field_ref="ssavelocity_elem"   unit="m a-1" /> 
+          <field id="lithk"      name="lithk"      field_ref="lithk_elem"  > this*iarea </field>
+          <field id="topg"       name="topg"       field_ref="topg_elem" />
+                      <field id="iareagr"     name="iareagr"     field_ref="iareagr"       />
+                      <field id="iareafl"     name="iareafl"     field_ref="iareafl"       />
         </field_group>
-
         <field_group id="calvingmip_2D_flux" grid_ref="GridCells" operation="average">
-          <field id="calvingmip_ligroundf"   name="ligroundf" long_name="Loss of grounded ice mass resulting at grounding line"  field_ref="ligroundf"       unit="kg m-2 a-1" > this*iarea*$rhoi </field>
-          <field id="calvingmip_lifmassbf" name="lifmassbf" unit="kg m-2 a-1" long_name="Loss of ice mass resulting from ice front melting and calving" field_ref="calving_front_flux"  > this*iarea*$rhoi </field>
+          <field id="ligroundf"   name="ligroundf" long_name="Loss of grounded ice mass resulting at grounding line"  field_ref="ligroundf"       unit="kg m-2 a-1" > this*iarea*$rhoi </field>
+          <field id="lifmassbf" name="lifmassbf" unit="kg m-2 a-1" long_name="Loss of ice mass resulting from ice front melting and calving" field_ref="calving_front_flux"  > this*iarea*$rhoi </field>
         </field_group>
 
         <field_group id="calvingmip_1D" grid_ref="ScalarGrid_sum">
-          <field id="calvingmip_lim"             name="lim"             standard_name="land_ice_mass" unit="kg" field_ref="calvingmip_lithk" > this*cell_area*$rhoi </field>
-          <field id="calvingmip_limnsw"          name="limnsw"          standard_name="land_ice_mass_not_displacing_sea_water" unit="kg" field_ref="haf_elem" > this*cell_area*$rhoi </field>
-          <field id="calvingmip_iareagr"         name="iareagr"         standard_name="grounded_ice_sheet_area" unit="m2" field_ref="calvingmip_iareagr" > this*cell_area </field>
-          <field id="calvingmip_iareafl"         name="iareafl"         standard_name="floating_ice_shelf_area" unit="m2" field_ref="calvingmip_iareafl" > this*cell_area </field>
-          <field id="calvingmip_tendligroundf"   name="tendligroundf"   standard_name="tendency_of_grounded_ice_mass" unit="kg a-1" field_ref="calvingmip_ligroundf" > this*cell_area </field>
-          <field id="calvingmip_tendlicalvf"   name="tendlicalvf"   standard_name="tendency_of_land_ice_mass_due_to_calving_and_ice_front_melting" unit="kg a-1" field_ref="calvingmip_lifmassbf" > this*cell_area </field>
+          <field id="lim"             name="lim"             standard_name="land_ice_mass" unit="kg" field_ref="lithk" > this*cell_area*$rhoi </field>
+          <field id="limnsw"          name="limnsw"          standard_name="land_ice_mass_not_displacing_sea_water" unit="kg" field_ref="haf_elem" > this*cell_area*$rhoi </field>
+          <field id="iareagr"         name="iareagr"         standard_name="grounded_ice_sheet_area" unit="m2" field_ref="iareagr" > this*cell_area </field>
+          <field id="iareafl"         name="iareafl"         standard_name="floating_ice_shelf_area" unit="m2" field_ref="iareafl" > this*cell_area </field>
+          <field id="tendligroundf"   name="tendligroundf"   standard_name="tendency_of_grounded_ice_mass" unit="kg a-1" field_ref="ligroundf" > this*cell_area </field>
+          <field id="tendlicalvf"   name="tendlicalvf"   standard_name="tendency_of_land_ice_mass_due_to_calving_and_ice_front_melting" unit="kg a-1" field_ref="lifmassbf" > this*cell_area </field>
         </field_group>
 
         <field_group id="calvingmip_1D_true_cell_area" grid_ref="ScalarGrid_sum">
-          <field id="calvingmip_lim_tca"             name="lim_tca"             standard_name="land_ice_mass" unit="kg" field_ref="calvingmip_lithk"  > this*true_cell_area*$rhoi </field>
-          <field id="calvingmip_limnsw_tca"          name="limnsw_tca"          standard_name="land_ice_mass_not_displacing_sea_water" unit="kg" field_ref="haf_elem"      > this*true_cell_area*$rhoi </field>
-          <field id="calvingmip_iareagr_tca"         name="iareagr_tca"         standard_name="grounded_ice_sheet_area" unit="m2" field_ref="calvingmip_iareagr" > this*true_cell_area </field>
-          <field id="calvingmip_iareafl_tca"         name="iareafl_tca"         standard_name="floating_ice_shelf_area" unit="m2" field_ref="calvingmip_iareafl" > this*true_cell_area </field>
-          <field id="calvingmip_tendligroundf_tca"   name="tendligroundf_tca"   standard_name="tendency_of_grounded_ice_mass" unit="kg a-1" field_ref="calvingmip_ligroundf" > this*true_cell_area </field>
-          <field id="calvingmip_tendlicalvf_tca"   name="tendlicalvf_tca"   standard_name="tendency_of_land_ice_mass_due_to_calving_and_ice_front_melting" unit="kg a-1" field_ref="calvingmip_lifmassbf" > this*true_cell_area </field>
+          <field id="lim_tca"             name="lim_tca"             standard_name="land_ice_mass" unit="kg" field_ref="lithk"  > this*true_cell_area*$rhoi </field>
+          <field id="limnsw_tca"          name="limnsw_tca"          standard_name="land_ice_mass_not_displacing_sea_water" unit="kg" field_ref="haf_elem"      > this*true_cell_area*$rhoi </field>
+          <field id="iareagr_tca"         name="iareagr_tca"         standard_name="grounded_ice_sheet_area" unit="m2" field_ref="iareagr" > this*true_cell_area </field>
+          <field id="iareafl_tca"         name="iareafl_tca"         standard_name="floating_ice_shelf_area" unit="m2" field_ref="iareafl" > this*true_cell_area </field>
+          <field id="tendligroundf_tca"   name="tendligroundf_tca"   standard_name="tendency_of_grounded_ice_mass" unit="kg a-1" field_ref="ligroundf" > this*true_cell_area </field>
+          <field id="tendlicalvf_tca"   name="tendlicalvf_tca"   standard_name="tendency_of_land_ice_mass_due_to_calving_and_ice_front_melting" unit="kg a-1" field_ref="lifmassbf" > this*true_cell_area </field>
         </field_group>
 
 
