@@ -14,7 +14,7 @@ $fsave = 1
 $dt = 1
 $name = "exp4"
 $id = 01
-$MESH_NAME="mesh"
+$MESH_NAME="5km"
 !Do you want to run a restart configuration? 
 ! if YES set it to "Before Simulation"
 ! if NO  set it to "Never"
@@ -436,7 +436,7 @@ Solver 8
 
   ! Transport across GL and IF
   Scalar Field 11 = String "tendligroundf"
-  Scalar Field 12 = String "tendlicalf"
+  Scalar Field 12 = String "tendlicalvf"
   Scalar Field 13 = String "calving_front_flux"
 
   !Global Variables
