@@ -385,14 +385,73 @@ Solver 7
   Exported Variable 4 = "Ceff"
 End
 !------------------XIOS-------------------------
+Solver 8
+  !Exec Solver = never
+  Exec Solver = After Timestep
+  Equation = "XIOSOutPutSolve"
+  Procedure = "ElmerIceSolvers" "XIOSOutputSolver"
 
+  Skip Edges = Logical True
+
+  time_units=String "100y"
+
+  ! time-step: optional the duration of the tile step; other time_step=time_units*dt
+  !timestep=String "30d"
+
+  ! for consitency check we check that taking 1/dt time_step leads 
+  !  to the same duration than time_units with xx seconds
+  timestep tolerance = Real 1.0
+
+  ! to set the strat date from elmer; star date will be reference date + (Gettime()-dt)*time_units
+  ! i.e. for restart if time=10+dt => start_date=2025-01-01
+  reference date=String "0000-01-01"
+
+  ! name format
+  file names suffix = String "_$name$"
+
+  ! node and elem vars
+
+  ! geometry
+  Scalar Field 1 = String "lithk"
+  Scalar Field 1 compute cell average = Logical True
+  Scalar Field 2 = String "topg"
+  Scalar Field 2 compute cell average = Logical True
+
+  ! Mask and fraction
+  Scalar Field 3 = String "iarea"
+  Scalar Field 4 = String "iareagr"
+  Scalar Field 5 = String "iareafl"
+  Scalar Field 6 = String "groundedmask"
+
+  ! Velocities
+  Scalar Field 7= String "ssavelocity 1"
+  Scalar Field 7 compute cell average = Logical True
+
+  Scalar Field 8= String "ssavelocity 2"
+  Scalar Field 8 compute cell average = Logical True
+
+  !land ice mass
+  Scalar Field 9 = String "lim"
+  Scalar Field 10 = String "limnsw"
+
+  ! Transport across GL and IF
+  Scalar Field 11 = String "tendligroundf"
+  Scalar Field 12 = String "tendlicalf"
+  Scalar Field 13 = String "calving_front_flux"
+
+  !Global Variables
+  Global Variable 1 = String "time"
+
+  Solver info level = integer 4
+
+End
 !---------------------------------------------------
 !---------------- EQUATIONS ------------------------
 !---------------------------------------------------
 
 Equation 1
   Name = String "Equations"
-  Active Solvers (7) = 1 2 3 4 5 6 7 
+  Active Solvers (8) = 1 2 3 4 5 6 7 8
 End
 
 !---------------------------------------------------
