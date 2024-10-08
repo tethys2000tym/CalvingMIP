@@ -20,7 +20,7 @@
           <field id="calvingmip_yvelmean"   name="yvelmean"   field_ref="ssavelocity 2_elem" unit="m a-1" /> 
           <field id="calvingmip_velmean"    name="velmean"    field_ref="ssavelocity_elem"   unit="m a-1" /> 
           <field id="calvingmip_lithk"      name="lithk"      field_ref="lithk_elem"  > this*iarea </field>
-          <field id="calvingmip_topg"       name="topg"       field_ref="bedrock_elem" />
+          <field id="calvingmip_topg"       name="topg"       field_ref="topg_elem" />
                       <field id="calvingmip_iareagr"     name="iareagr"     field_ref="iareagr"       />
                       <field id="calvingmip_iareafl"     name="iareafl"     field_ref="iareafl"       />
         </field_group>
@@ -61,8 +61,8 @@
           <field id="haf"      standard_name="heigh_above_flotation" unit="m"  grid_ref="GridNodes" />
           <field id="haf_elem" standard_name="heigh_above_flotation" unit="m"  grid_ref="GridCells" />
 
-          <field id="bedrock"      standard_name="bedrock_altitude" unit="m"  grid_ref="GridNodes" comment="The bedrock topography wrt geoid EIGEN-6C4 (positive up)" />
-          <field id="bedrock_elem" standard_name="bedrock_altitude" unit="m" grid_ref="GridCells"  >
+          <field id="topg"      standard_name="bedrock_altimetry" unit="m"  grid_ref="GridNodes" comment="The bedrock topography wrt geoid EIGEN-6C4 (positive up)" />
+          <field id="topg_elem" standard_name="bedrock_altimetry" unit="m" grid_ref="GridCells"  >
                            <variable name="double_attr" type="double"> 3.141592654 </variable>
                       </field>
         </field_group>
