@@ -1,0 +1,38 @@
+!----------------------------------------------------------------------
+!                            PHYSICAL PARAMETERS
+!----------------------------------------------------------------------
+! the SI units are kg (kilogram) - m (meter) - s (second)
+!  Conversion to Elmer units in MPa (Megapascal) - m (meter) - a (years)
+!----------------------------------------------------------------------
+
+!$yearinsec = 365.2522*24*60*60                ! time with calendar 365j (s)
+$yearinsec = 31556926                          ! time with calendar in s
+!$dayinsec = 86400
+
+$rhoi_SI   = 917.0                            ! Ice density (kg.m^-3)
+$rhoi      = rhoi_SI / (1.0e6 * yearinsec^2)  ! Ice density (MPa.m^-2.a^2)
+
+$zsl       = 0.0                              ! Sea level elevation (m). under sea level z<0.
+
+$rhosw_SI  = 1028.0                           ! Sea water density (kg.m^-3)
+$rhow      = rhosw_SI / (1.0e6 * yearinsec^2) ! Sea water density (MPa.m^-2.a^2)
+
+$grav_SI   = 9.81                             ! Gravity (m.s^-2)
+$gravity   = -grav_SI * yearinsec^2           ! Gravity (m.a^-2)
+$smb = 0.3E0                                  ! m/a
+
+!----------------------------------------------------------------------
+!                         MODEL PARAMETERS
+!---------------------------------------------------------------------
+$n         = 3.0                              ! Glen exponent (-)
+
+$Hmin      = 1.0                              ! H limiter threshold (m)
+
+$A=2.9377e-9*(1.0e3)^3
+$eta = 1.0/(2.0*A)^(1.0/n)		      ! eta viscosity (Glen's law)
+$C = (1.0/0.001)^(1.0/3.0)                    ! C  friction coefficient (kPa m^{-1/3}a^{-1/3})
+$C = C/(1.0e3)                                ! C  friction coefficient (MPa m^{-1/3}a^{-1/3})
+$zsl=0.0
+! critical thickness
+$Hcr = 1.0
+
