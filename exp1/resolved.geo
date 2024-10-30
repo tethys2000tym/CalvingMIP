@@ -1,11 +1,13 @@
 deltal=800000.0;
+calvingfront=750000.0;
+calvingrange=100000.0;
 resbbox=25000.0;
-rescntr=25000.0;
+rescntr=50000.0;
 resfront=2500.0;
 // circle
 Point(1) = {0,0,0,rescntr};
-Point(2) = {0.5*deltal,0,0,resfront};
-Point(3) = {0.75*deltal,0,0,resfront};
+Point(2) = {calvingfront - calvingrange,0,0,resfront};
+Point(3) = {calvingfront,0,0,resfront};
 Point(4) = {deltal,0,0,resbbox};
 Point(5) = {-deltal,-deltal,0,resbbox};
 Point(6) = {-deltal,deltal,0,resbbox};
