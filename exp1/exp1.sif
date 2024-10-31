@@ -259,7 +259,7 @@ Solver 3
    ! calculate dH/dt : elmerinternal routines
    Calculate Velocity = Logical True
 
-   Procedure = "ElmerIceSolvers" "ThicknessSolver"
+   Procedure = "./PROG/MyThicknessSolver.so" "ThicknessSolver"
 
    Linear System Solver = Iterative
 
