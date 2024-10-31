@@ -10,9 +10,9 @@
 !---LUA END
 
 $name = "exp1"
-$ndt = 5000
-$fsave = 1
-$dt = 1 
+$ndt = 1000
+$fsave = 2
+$dt = 5 
 $id = 01
 $restart_file="./updated_test.nc"
 $MESH_NAME="resolved"
