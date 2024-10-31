@@ -15,7 +15,7 @@ $fsave = 1
 $dt = 1 
 $id = 01
 $restart_file="./updated_test.nc"
-$MESH_NAME="old_mesh"
+$MESH_NAME="resolved_coarse"
 !Do you want to run a restart configuration? 
 ! if YES set it to "Before Simulation"
 ! if NO  set it to "Never"
@@ -262,11 +262,19 @@ Solver 3
    Procedure = "ElmerIceSolvers" "ThicknessSolver"
 
    Linear System Solver = Iterative
-   Linear System Max Iterations = 1000
-   Linear System Iterative Method = BiCGStab
-   Linear System Preconditioning = ILU0
-   Linear System Abort Not Converged = False
-   Linear System Residual Output = 1000
+
+   !Linear System Max Iterations = 1000
+   !Linear System Iterative Method = BiCGStab
+   !Linear System Preconditioning = ILU0
+   !Linear System Abort Not Converged = False
+   !Linear System Residual Output = 1000
+
+   Linear System Use HYPRE = Logical True
+   Linear System Scaling = false
+   Linear System Preconditioning = "BoomerAMG"
+   Linear System Residual Output = 100
+   Linear System Max Iterations = 2500
+   Linear System Iterative Method = "FlexGMRes"
 
    Linear System Convergence Tolerance = 1.0e-09
 
