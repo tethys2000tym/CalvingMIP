@@ -1,0 +1,595 @@
+NetCDF Variables Information:
+Variable: Time100
+  Standard Name: No standard name
+  Units: a
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: X
+  Standard Name: No standard name
+  Units: m
+  Dimensions: ('X',)
+  Shape: (321,)
+
+Variable: Y
+  Standard Name: No standard name
+  Units: m
+  Dimensions: ('Y',)
+  Shape: (321,)
+
+Variable: xvelmean
+  Standard Name: land_ice_vertical_mean_x_velocity
+  Units: m a-1
+  Dimensions: ('Time100', 'Y', 'X')
+  Shape: (11, 321, 321)
+
+Variable: yvelmean
+  Standard Name: land_ice_vertical_mean_y_velocity
+  Units: m a-1
+  Dimensions: ('Time100', 'Y', 'X')
+  Shape: (11, 321, 321)
+
+Variable: lithk
+  Standard Name: land_ice_thickness
+  Units: m
+  Dimensions: ('Time100', 'Y', 'X')
+  Shape: (11, 321, 321)
+
+Variable: mask
+  Standard Name: ice_mask
+  Units: dimensionless
+  Dimensions: ('Time100', 'Y', 'X')
+  Shape: (11, 321, 321)
+
+Variable: topg
+  Standard Name: bedrock_altimetry
+  Units: m
+  Dimensions: ('Time100', 'Y', 'X')
+  Shape: (11, 321, 321)
+
+Variable: iareafl
+  Standard Name: grounded_ice_shelf_area
+  Units: m2
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: iareagr
+  Standard Name: floating_ice_sheet_area
+  Units: m2
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: lim
+  Standard Name: land_ice_mass
+  Units: kg
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: limnsw
+  Standard Name: land_ice_mass_not_displacing_sea_water
+  Units: kg
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: tendlicalvf
+  Standard Name: tendency_of_land_ice_mass_due_to_calving
+  Units: kg a-1
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: tendligroundf
+  Standard Name: tendency_of_grounded_ice_mass
+  Units: kg a-1
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: iareatotalNW
+  Standard Name: total_ice_area_NorthWest
+  Units: m2
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: iareatotalNE
+  Standard Name: total_ice_area_NorthEast
+  Units: m2
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: iareatotalSW
+  Standard Name: total_ice_area_SouthWest
+  Units: m2
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: iareatotalSE
+  Standard Name: total_ice_area_SouthEast
+  Units: m2
+  Dimensions: ('Time100',)
+  Shape: (11,)
+
+Variable: Time1
+  Standard Name: No standard name
+  Units: a
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: sCapA
+  Standard Name: distance_along_profile_CapA
+  Units: m
+  Dimensions: ('sCapA',)
+  Shape: (51,)
+
+Variable: lithkCapA
+  Standard Name: land_ice_thickness_along_CapA
+  Units: m
+  Dimensions: ('Time1', 'sCapA')
+  Shape: (1000, 51)
+
+Variable: xvelmeanCapA
+  Standard Name: land_ice_vertical_mean_x_velocity_along_CapA
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapA')
+  Shape: (1000, 51)
+
+Variable: yvelmeanCapA
+  Standard Name: land_ice_vertical_mean_y_velocity_along_CapA
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapA')
+  Shape: (1000, 51)
+
+Variable: maskCapA
+  Standard Name: ice_mask_along_CapA
+  Units: dimensionless
+  Dimensions: ('Time1', 'sCapA')
+  Shape: (1000, 51)
+
+Variable: sCapB
+  Standard Name: distance_along_profile_CapB
+  Units: m
+  Dimensions: ('sCapB',)
+  Shape: (51,)
+
+Variable: lithkCapB
+  Standard Name: land_ice_thickness_along_CapB
+  Units: m
+  Dimensions: ('Time1', 'sCapB')
+  Shape: (1000, 51)
+
+Variable: xvelmeanCapB
+  Standard Name: land_ice_vertical_mean_x_velocity_along_CapB
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapB')
+  Shape: (1000, 51)
+
+Variable: yvelmeanCapB
+  Standard Name: land_ice_vertical_mean_y_velocity_along_CapB
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapB')
+  Shape: (1000, 51)
+
+Variable: maskCapB
+  Standard Name: ice_mask_along_CapB
+  Units: dimensionless
+  Dimensions: ('Time1', 'sCapB')
+  Shape: (1000, 51)
+
+Variable: sCapC
+  Standard Name: distance_along_profile_CapC
+  Units: m
+  Dimensions: ('sCapC',)
+  Shape: (51,)
+
+Variable: lithkCapC
+  Standard Name: land_ice_thickness_along_CapC
+  Units: m
+  Dimensions: ('Time1', 'sCapC')
+  Shape: (1000, 51)
+
+Variable: xvelmeanCapC
+  Standard Name: land_ice_vertical_mean_x_velocity_along_CapC
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapC')
+  Shape: (1000, 51)
+
+Variable: yvelmeanCapC
+  Standard Name: land_ice_vertical_mean_y_velocity_along_CapC
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapC')
+  Shape: (1000, 51)
+
+Variable: maskCapC
+  Standard Name: ice_mask_along_CapC
+  Units: dimensionless
+  Dimensions: ('Time1', 'sCapC')
+  Shape: (1000, 51)
+
+Variable: sCapD
+  Standard Name: distance_along_profile_CapD
+  Units: m
+  Dimensions: ('sCapD',)
+  Shape: (51,)
+
+Variable: lithkCapD
+  Standard Name: land_ice_thickness_along_CapD
+  Units: m
+  Dimensions: ('Time1', 'sCapD')
+  Shape: (1000, 51)
+
+Variable: xvelmeanCapD
+  Standard Name: land_ice_vertical_mean_x_velocity_along_CapD
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapD')
+  Shape: (1000, 51)
+
+Variable: yvelmeanCapD
+  Standard Name: land_ice_vertical_mean_y_velocity_along_CapD
+  Units: m a-1
+  Dimensions: ('Time1', 'sCapD')
+  Shape: (1000, 51)
+
+Variable: maskCapD
+  Standard Name: ice_mask_along_CapD
+  Units: dimensionless
+  Dimensions: ('Time1', 'sCapD')
+  Shape: (1000, 51)
+
+Variable: sHalA
+  Standard Name: distance_along_profile_HalA
+  Units: m
+  Dimensions: ('sHalA',)
+  Shape: (75,)
+
+Variable: lithkHalA
+  Standard Name: land_ice_thickness_along_HalA
+  Units: m
+  Dimensions: ('Time1', 'sHalA')
+  Shape: (1000, 75)
+
+Variable: xvelmeanHalA
+  Standard Name: land_ice_vertical_mean_x_velocity_along_HalA
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalA')
+  Shape: (1000, 75)
+
+Variable: yvelmeanHalA
+  Standard Name: land_ice_vertical_mean_y_velocity_along_HalA
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalA')
+  Shape: (1000, 75)
+
+Variable: maskHalA
+  Standard Name: ice_mask_along_HalA
+  Units: dimensionless
+  Dimensions: ('Time1', 'sHalA')
+  Shape: (1000, 75)
+
+Variable: sHalB
+  Standard Name: distance_along_profile_HalB
+  Units: m
+  Dimensions: ('sHalB',)
+  Shape: (75,)
+
+Variable: lithkHalB
+  Standard Name: land_ice_thickness_along_HalB
+  Units: m
+  Dimensions: ('Time1', 'sHalB')
+  Shape: (1000, 75)
+
+Variable: xvelmeanHalB
+  Standard Name: land_ice_vertical_mean_x_velocity_along_HalB
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalB')
+  Shape: (1000, 75)
+
+Variable: yvelmeanHalB
+  Standard Name: land_ice_vertical_mean_y_velocity_along_HalB
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalB')
+  Shape: (1000, 75)
+
+Variable: maskHalB
+  Standard Name: ice_mask_along_HalB
+  Units: dimensionless
+  Dimensions: ('Time1', 'sHalB')
+  Shape: (1000, 75)
+
+Variable: sHalC
+  Standard Name: distance_along_profile_HalC
+  Units: m
+  Dimensions: ('sHalC',)
+  Shape: (75,)
+
+Variable: lithkHalC
+  Standard Name: land_ice_thickness_along_HalC
+  Units: m
+  Dimensions: ('Time1', 'sHalC')
+  Shape: (1000, 75)
+
+Variable: xvelmeanHalC
+  Standard Name: land_ice_vertical_mean_x_velocity_along_HalC
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalC')
+  Shape: (1000, 75)
+
+Variable: yvelmeanHalC
+  Standard Name: land_ice_vertical_mean_y_velocity_along_HalC
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalC')
+  Shape: (1000, 75)
+
+Variable: maskHalC
+  Standard Name: ice_mask_along_HalC
+  Units: dimensionless
+  Dimensions: ('Time1', 'sHalC')
+  Shape: (1000, 75)
+
+Variable: sHalD
+  Standard Name: distance_along_profile_HalD
+  Units: m
+  Dimensions: ('sHalD',)
+  Shape: (75,)
+
+Variable: lithkHalD
+  Standard Name: land_ice_thickness_along_HalD
+  Units: m
+  Dimensions: ('Time1', 'sHalD')
+  Shape: (1000, 75)
+
+Variable: xvelmeanHalD
+  Standard Name: land_ice_vertical_mean_x_velocity_along_HalD
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalD')
+  Shape: (1000, 75)
+
+Variable: yvelmeanHalD
+  Standard Name: land_ice_vertical_mean_y_velocity_along_HalD
+  Units: m a-1
+  Dimensions: ('Time1', 'sHalD')
+  Shape: (1000, 75)
+
+Variable: maskHalD
+  Standard Name: ice_mask_along_HalD
+  Units: dimensionless
+  Dimensions: ('Time1', 'sHalD')
+  Shape: (1000, 75)
+
+Variable: xcfCapA
+  Standard Name: x_calving_front_on_CapA
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfCapA
+  Standard Name: y_calving_front_on_CapA
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfCapA
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_CapA
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfCapA
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_CapA
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfCapA
+  Standard Name: land_ice_thickness_at_calving_front_on_CapA
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xcfCapB
+  Standard Name: x_calving_front_on_CapB
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfCapB
+  Standard Name: y_calving_front_on_CapB
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfCapB
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_CapB
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfCapB
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_CapB
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfCapB
+  Standard Name: land_ice_thickness_at_calving_front_on_CapB
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xcfCapC
+  Standard Name: x_calving_front_on_CapC
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfCapC
+  Standard Name: y_calving_front_on_CapC
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfCapC
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_CapC
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfCapC
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_CapC
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfCapC
+  Standard Name: land_ice_thickness_at_calving_front_on_CapC
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xcfCapD
+  Standard Name: x_calving_front_on_CapD
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfCapD
+  Standard Name: y_calving_front_on_CapD
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfCapD
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_CapD
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfCapD
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_CapD
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfCapD
+  Standard Name: land_ice_thickness_at_calving_front_on_CapD
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xcfHalA
+  Standard Name: x_calving_front_on_HalA
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfHalA
+  Standard Name: y_calving_front_on_HalA
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfHalA
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_HalA
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfHalA
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_HalA
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfHalA
+  Standard Name: land_ice_thickness_at_calving_front_on_HalA
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xcfHalB
+  Standard Name: x_calving_front_on_HalB
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfHalB
+  Standard Name: y_calving_front_on_HalB
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfHalB
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_HalB
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfHalB
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_HalB
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfHalB
+  Standard Name: land_ice_thickness_at_calving_front_on_HalB
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xcfHalC
+  Standard Name: x_calving_front_on_HalC
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfHalC
+  Standard Name: y_calving_front_on_HalC
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfHalC
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_HalC
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfHalC
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_HalC
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfHalC
+  Standard Name: land_ice_thickness_at_calving_front_on_HalC
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xcfHalD
+  Standard Name: x_calving_front_on_HalD
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: ycfHalD
+  Standard Name: y_calving_front_on_HalD
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: xvelmeancfHalD
+  Standard Name: land_ice_vertical_mean_x_velocity_at_calving_front_on_HalD
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: yvelmeancfHalD
+  Standard Name: land_ice_vertical_mean_y_velocity_at_calving_front_on_HalD
+  Units: m a-1
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
+Variable: lithkcfHalD
+  Standard Name: land_ice_thickness_at_calving_front_on_HalD
+  Units: m
+  Dimensions: ('Time1',)
+  Shape: (1000,)
+
