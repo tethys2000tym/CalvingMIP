@@ -15,7 +15,7 @@ $fsave = 1
 $dt = 1 
 $id = 01
 $restart_file="./updated_test.nc"
-$MESH_NAME="resolved_coarse"
+$MESH_NAME="resolved"
 !Do you want to run a restart configuration? 
 ! if YES set it to "Before Simulation"
 ! if NO  set it to "Never"
