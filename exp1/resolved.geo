@@ -1,8 +1,8 @@
 deltal=800000.0;
 calvingfront=750000.0;
 calvingrange=100000.0;
-resbbox=25000.0;
-resbboxc=10000.0;
+resbbox=50000.0;
+resbboxc=20000.0;
 rescntr=50000.0;
 resfront=2500.0;
 
