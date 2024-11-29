@@ -10,11 +10,11 @@
 !---LUA END
 
 $ndt = 1000
-$fsave = 10
+$fsave = 1
 $dt = 1
 $name = "exp2"
 $id = 01
-$MESH_NAME="resolved_halo"
+$MESH_NAME="symmetric"
 !$restart_file="./test.nc"
 !$restart_value= "Before Simulation" 
 !Do you want to run a restart configuration? 
@@ -62,7 +62,8 @@ Simulation
   OutPut File = "$name$.result"
   Post File = "$name$.vtu"
   vtu: Vtu Time Collection = Logical True
-  
+
+  Restart before Initial Conditions = True
   Restart File = "exp1.result"
   Restart Position = 0
   Restart Time = Real 0.0
@@ -86,17 +87,15 @@ End
 !---------------------------------------------------
 !! for ice 
 Initial Condition 1
-  Pressure = Real 0.0
-  Velocity 1 = Real 0.0
-  Velocity 2 = Real 0.0
+  !SSAVelocity 1 = Real 0.0
+  !SSAVelocity 2 = Real 0.0
 
   smb = Real $smb !m/a
 
-  H = Real 1.0  ! m
+  !H = Real 1.0  ! m
   
   LS = Variable Coordinate 1, Coordinate 2
     Real LUA "math.sqrt(tx[0]^2+tx[1]^2)-750e3" 
-
   Bedrock = Variable Coordinate 1, Coordinate 2
     REAL procedure "./PROG/Bedrock" "Circular"
     
@@ -129,11 +128,14 @@ Body Force 1
   SSAVelocity 2 Higher Limit = Real 10000.0
 
   
+  !CalvingMIP 1 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 1
+  !   Real LUA "IfThenElse(tx[3] < 0.0, IfThenElse(tx[2] < 500, (tx[4]-(-300 * math.sin(2.0 * math.pi * tx[2] / 1000))) * tx[0] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])), 0.0), 0.0)"
   CalvingMIP 1 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 1
-     Real LUA "IfThenElse(tx[3] < 0.0, IfThenElse(tx[2] < 500, (tx[4]-(-300 * math.sin(2.0 * math.pi * tx[2] / 1000))) * tx[0] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])), 0.0), 0.0)"
-     
-  CalvingMIP 2 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 2
-     Real LUA "IfThenElse(tx[3] < 0.0, IfThenElse(tx[2] < 500, (tx[4]-(-300 * math.sin(2.0 * math.pi * tx[2] / 1000))) * tx[1] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])), 0.0), 0.0)"
+     Real LUA "IfThenElse(tx[3] < 0.0, tx[4] - ((300 * math.sin(2.0 * math.pi * tx[2] / 1000)) * tx[0]/(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]))), 0.0)"            
+  !CalvingMIP 2 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 2
+  !   Real LUA "IfThenElse(tx[3] < 0.0, IfThenElse(tx[2] < 500, (tx[4]-(-300 * math.sin(2.0 * math.pi * tx[2] / 1000))) * tx[1] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])), 0.0), 0.0)"
+  CalvingMIP 2 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 1
+     Real LUA "IfThenElse(tx[3] < 0.0, tx[4] - ((300 * math.sin(2.0 * math.pi * tx[2] / 1000)) * tx[1]/(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]))), 0.0)"
      
   Levelset Flux =  Real 0.0d0
   
@@ -174,10 +176,18 @@ End
 Material 1
   Name = String "ice"
 
+!  Levelset Velocity 1 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 1
+!     Real LUA "IfThenElse(tx[2] < 500.0,IfThenElse(tx[3] < 0.0,(-300.0 * math.sin(2.0 * math.pi * tx[2] / 1000.0)) * tx[0] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])),0.0),IfThenElse(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]) >= 750000.0,0.0,tx[4]))"
+     
   Levelset Velocity 1 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 1
-     Real LUA "IfThenElse(tx[2] < 500.0,IfThenElse(tx[3] < 0.0,(-300.0 * math.sin(2.0 * math.pi * tx[2] / 1000.0)) * tx[0] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])),0.0),IfThenElse(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]) >= 750000.0,0.0,tx[4]))"
+     Real LUA "IfThenElse(tx[3] < 0.0, -((300 * math.sin(2.0 * math.pi * tx[2] / 1000)) * tx[0]/(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]))), 0.0)"
+     
+!  Levelset Velocity 2 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 2
+!     Real LUA "IfThenElse(tx[2] < 500.0,IfThenElse(tx[3] < 0.0,(-300.0 * math.sin(2.0 * math.pi * tx[2] / 1000.0)) * tx[1] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])),0.0),IfThenElse(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]) >= 750000.0,0.0,tx[4]))"
+
   Levelset Velocity 2 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 2
-     Real LUA "IfThenElse(tx[2] < 500.0,IfThenElse(tx[3] < 0.0,(-300.0 * math.sin(2.0 * math.pi * tx[2] / 1000.0)) * tx[1] / (math.sqrt(tx[0]*tx[0] + tx[1]*tx[1])),0.0),IfThenElse(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]) >= 750000.0,0.0,tx[4]))"
+     Real LUA "IfThenElse(tx[3] < 0.0, -((300 * math.sin(2.0 * math.pi * tx[2] / 1000)) * tx[1]/(math.sqrt(tx[0]*tx[0] + tx[1]*tx[1]))), 0.0)"
+
   Viscosity Exponent = Real $1.0/n
   Critical Shear Rate = Real 1.0e-15
 
@@ -241,6 +251,8 @@ End
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Solver 2
    Equation = "Thickness"
+   !Exec Solver = "never"
+   
    Variable = -dofs 1 "H"
 
    Exported Variable 1 = -dofs 1 "H Residual"
@@ -307,7 +319,7 @@ End
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Solver 4
   Equation = "Level Set"
-  Variable = LS
+  Variable = "LS"
   Variable DOFs = 1
 !  Procedure = "./PROG/LevelSetSolver" "LevelSetSolver"
   Procedure = "LevelSet" "LevelSetSolver"
@@ -331,11 +343,12 @@ Solver 4
   Nonlinear System Newton After Iterations = 3
   Nonlinear System Newton After Tolerance = 1.0e-2
   !Nonlinear System Relaxation Factor = 1.0
-
+  Optimize Bandwidth = False
 End
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Solver 5
   Equation = "Reinitialize"
+  !Exec Solver = "Never"
   Variable = Renorm
   LevelSet Variable = String "LS"
   Variable DOFs = 1
@@ -343,6 +356,7 @@ Solver 5
 
   Extract Interval = 1
   Reinitialize Interval = 1
+  Optimize Bandwidth = False
 
 End
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -362,6 +376,8 @@ Solver 6
    Exported Variable 4 = haf
 
    compute ice area fractions = Logical TRUE
+   Ice free mask values = Real 0.0
+   
    Exported Variable 5 = -elem "sftgif"
    Exported Variable 6 = -elem "sftgrf"
    Exported Variable 7 = -elem "sftflf"
@@ -370,6 +386,10 @@ End
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Solver 7
   Equation = "SSA"
+  !Exec Solver = "never"
+  
+  Optimize Bandwidth = False
+  
   Variable = -dofs 2 "SSAVelocity"
 
    Procedure = "ElmerIceSolvers" "SSABasalSolver"

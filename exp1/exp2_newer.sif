@@ -12,7 +12,7 @@ $fsave = 10
 $dt = 1
 $name = "exp2"
 $id = 01
-$MESH_NAME="resolved"
+$MESH_NAME="symmetric"
 !$restart_file="./test.nc"
 !$restart_value= "Before Simulation" 
 !Do you want to run a restart configuration? 
@@ -93,7 +93,7 @@ Initial Condition 1
   H = Real 1.0  ! m
   
   LS = Variable Coordinate 1, Coordinate 2
-    Real LUA "math.sqrt(tx[0]^2+tx[1]^2)-750e3" 
+    Real LUA "math.sqrt(tx[0]^2+tx[1]^2)-750.0e3" 
 
   Bedrock = Variable Coordinate 1, Coordinate 2
     REAL procedure "./PROG/Bedrock" "Circular"
@@ -128,10 +128,10 @@ Body Force 1
 
   
   CalvingMIP 1 = Variable Coordinate 1, Coordinate 2, time, groundedmask, SSAVelocity 1
-     Real LUA "lsetcond(tx[0],tx[1],tx[2],tx[3],tx[4]"
+     Real LUA "lsetcond(tx[0],tx[1],tx[2],tx[3],tx[4])"
      
   CalvingMIP 2 = Variable Coordinate 2, Coordinate 1, time, groundedmask, SSAVelocity 2
-     Real LUA "lsetcond(tx[0],tx[1],tx[2],tx[3],tx[4]"
+     Real LUA "lsetcond(tx[0],tx[1],tx[2],tx[3],tx[4])"
      
   Levelset Flux =  Real 0.0d0
   
@@ -248,8 +248,8 @@ Solver 2
    ! calculate dH/dt : elmerinternal routines
    Calculate Velocity = Logical True
 
-   !Procedure = "./PROG/MyThicknessSolver.so" "ThicknessSolver"
-   Procedure = "ElmerIceSolvers" "ThicknessSolver"
+   Procedure = "./PROG/MyThicknessSolver.so" "ThicknessSolver"
+   !Procedure = "ElmerIceSolvers" "ThicknessSolver"
 
    Linear System Solver = Iterative
 
